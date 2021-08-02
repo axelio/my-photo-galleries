@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router';
 import { faTimesCircle, faInfoCircle, faChevronCircleLeft, faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Swipeable } from 'react-swipeable'
 
 import './FullPhoto.css';
-import { KeyboardKeyCodes, FullPhotoRouterProps } from './types';
+import { KeyboardKeyCodes, FullPhotoPassedParams } from './types';
 
-const FullPhoto: React.FC<FullPhotoRouterProps> = ({ location }) => {
-    const images = location.state ? location.state.images : [];
-    const selectedPhotoIndex = location.state ? location.state.selectedPhotoIndex : NaN;
+const FullPhoto: React.FC<FullPhotoPassedParams> = ({ images, selectedPhotoIndex, onClose }) => {
 
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(selectedPhotoIndex);
     const [showDescription, setShowDescription] = useState(false);
@@ -27,11 +24,9 @@ const FullPhoto: React.FC<FullPhotoRouterProps> = ({ location }) => {
     });
 
     useEffect(() => {
-        if(isMobile && document.fullscreenEnabled && !document.fullscreenElement) 
+        if (isMobile && document.fullscreenEnabled && !document.fullscreenElement)
             document.documentElement.requestFullscreen();
     }, [isMobile]);
-
-    if (images.length === 0 || isNaN(selectedPhotoIndex)) return <Redirect to='/' />
 
     const handleKeyPress = (event: any) => {
         switch (event.keyCode) {
@@ -79,8 +74,8 @@ const FullPhoto: React.FC<FullPhotoRouterProps> = ({ location }) => {
     const onPhotoClicked = () => setShowButtons(prevShowButtons => !prevShowButtons);
 
     const closeFullPhoto = () => {
-        window.history.back()
         if (document.exitFullscreen && document.fullscreenElement) document.exitFullscreen();
+        onClose();
     };
 
     return (

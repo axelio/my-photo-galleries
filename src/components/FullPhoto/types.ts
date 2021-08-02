@@ -8,10 +8,9 @@ export enum KeyboardKeyCodes {
 }
 
 export type FullPhotoPassedParams = {
-    state: {
-        images: PictureWithThumbnail[],
-        selectedPhotoIndex: number
-    }
+    images: PictureWithThumbnail[],
+    selectedPhotoIndex: number,
+    onClose: Function
 }
 
 export type FullPhotoRouterProps = {

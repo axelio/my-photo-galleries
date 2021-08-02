@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import {
   HashRouter as Router,
   Route
@@ -9,16 +9,13 @@ import Main from '../Main/Main';
 import Architecture from '../Galleries/Architecture';
 import WinterBaltic from '../Galleries/WinterBaltic';
 import Nature from '../Galleries/Nature';
-import { StateContext, initialState, reducer } from '../../state/store';
 import FullPhoto from '../FullPhoto';
 import Nature2 from '../Galleries/Nature2';
 import Architecture2 from '../Galleries/Architecture2';
 
 const App: React.FC = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <StateContext.Provider value={{state, dispatch}}>
       <Router>
         <div className="app">
           <Route exact path="/" component={Main} />
@@ -30,8 +27,6 @@ const App: React.FC = () => {
           <Route path ='/preview' component={FullPhoto} />
         </div>
       </Router>
-    </StateContext.Provider>
-
   )
 }
 

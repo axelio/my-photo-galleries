@@ -1,34 +1,25 @@
-import React, { useRef, useContext, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { LazyLoadingProps } from './types';
 import './LazyLoading.css';
-import { ActionNames, AppState, Action } from '../../state/types';
-import { StateContext } from '../../state/store';
 
 const LazyLoading: React.FC<LazyLoadingProps> = ({ className, items }) => {
-    const { state, dispatch }: { state: AppState, dispatch: (arg: Action) => void } = useContext(StateContext);
+    const [loadedItemsNumber, setLoadedItemsNumber] = useState(3);
 
     const loadMoreBtnRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        return () => {
-            dispatch({ type: ActionNames.SetScrollYPosition, yScroll: 0 });
-        }
-    }, [dispatch]);
-
-
     const loadMoreItems = () => {
-        dispatch({ type: ActionNames.IncrementLoadedItems });
+        setLoadedItemsNumber(prev => prev + 3);
         setTimeout(() => {
             if (loadMoreBtnRef.current)
                 window.scrollTo({ top: loadMoreBtnRef.current.offsetTop, left: 0, behavior: 'smooth' });
         }, 0);
     }
 
-    const shouldShowLoadMore = state.loadedItemsNumber < items.length;
+    const shouldShowLoadMore = loadedItemsNumber < items.length;
     return (
         <>
             <div className={`lazyLoading ${className}`}>
-                {items.slice(0, state.loadedItemsNumber)}
+                {items.slice(0, loadedItemsNumber)}
             </div>
             <div ref={loadMoreBtnRef}>
                 {shouldShowLoadMore &&

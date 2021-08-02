@@ -1,43 +1,48 @@
-import React, { useEffect, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 
 import './Gallery.css';
 import { GalleryProps } from './types';
-import { AppState, Action, ActionNames } from '../../state/types';
-import { StateContext } from '../../state/store';
+
 import Spinner from '../Spinner/Spinner';
+import FullPhoto from '../FullPhoto';
 
 const Gallery: React.FC<GalleryProps> = ({ images }) => {
-    const { state, dispatch }: { state: AppState, dispatch: (arg: Action) => void } = useContext(StateContext);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingPhotos, setIsLoadingPhotos] = useState(true);
     const [loadedImages, setLoadedImages] = useState(0);
+    const [showFullPhoto, setShowFullPhoto] = useState(false);
+    const [photoIndex, setPhotoIndex] = useState(NaN);
 
     useEffect(() => {
-        window.scrollTo(0, state.scrollYPosition);
-        return () => {
-            dispatch({ type: ActionNames.SetScrollYPosition, yScroll: window.scrollY });
-        }
-    }, [dispatch, state.scrollYPosition]);
+        window.scrollTo(0, 0)
+    }, []);
 
     const imageLoaded = () => {
-        setLoadedImages(loadedImages + 1);
-        if (loadedImages === images.length - 1) setIsLoading(false);
+        setLoadedImages(prev => prev + 1);
+        if (loadedImages === images.length - 1) setIsLoadingPhotos(false);
+    }
+
+    const showPhoto = (index: number) => {
+        setPhotoIndex(index)
+        setShowFullPhoto(true);
+    }
+
+    const closePhoto = () => {
+        setShowFullPhoto(false);
+        setPhotoIndex(NaN);
     }
 
     return (
-        <div>
-            {isLoading && <div className='spinnerContainer'><Spinner /></div>}
-            <div className='photos' style={{ display: `${isLoading ? 'none' : ''}` }}>
+        <>
+            {isLoadingPhotos && <div className='spinnerContainer'><Spinner /></div>}
+            <div className='photos' style={{ display: `${isLoadingPhotos ? 'none' : ''}` }}>
                 {images.map((image, index) =>
-                    <Link key={index} className='thumbnail' to={{
-                        pathname: '/preview',
-                        state: { selectedPhotoIndex: index, images: images }
-                    }}>
+                    <div key={index} className='thumbnail' onClick={() => showPhoto(index)}>
                         <img src={image.thumbnail} onLoad={imageLoaded} alt="" />
-                    </Link>
+                    </div>
                 )}
             </div>
-        </div>
+            {showFullPhoto && <FullPhoto images={images} selectedPhotoIndex={photoIndex} onClose={() => closePhoto()} />}
+        </>
     );
 }
 
