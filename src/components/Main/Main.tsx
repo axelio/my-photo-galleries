@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './Main.css';
-import { header, boat, lisbon, sea, lviv, skalne } from '../../assets/background'
+import { header, lisbon, sea, lviv, skalne } from '../../assets/background'
 import Item from './Item/Item';
 import { Layers } from './Item/types';
 import Footer from '../Footer/Footer';
@@ -15,7 +15,6 @@ const Main: React.FC = () => {
         <Item layer={Layers.Grey} key="architecture2" title="cities" image={lviv} link='/architecture2' />,
         <Item layer={Layers.DarkBlue} key="nature" title="nature" image={sea} link='/nature' />,
         <Item layer={Layers.DarkGrey} key="architecture" title="architecture" image={lisbon} link='/architecture' />,
-        <Item layer={Layers.DarkBlue} key="winterbaltic" title="winter baltic sea" image={boat} link='/winterbaltic' />,
     ]
 
     return (

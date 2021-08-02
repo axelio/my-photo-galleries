@@ -7,9 +7,7 @@ import {
 import './App.css';
 import Main from '../Main/Main';
 import Architecture from '../Galleries/Architecture';
-import WinterBaltic from '../Galleries/WinterBaltic';
 import Nature from '../Galleries/Nature';
-import FullPhoto from '../FullPhoto';
 import Nature2 from '../Galleries/Nature2';
 import Architecture2 from '../Galleries/Architecture2';
 
@@ -22,9 +20,7 @@ const App: React.FC = () => {
           <Route path='/architecture2' component={Architecture2} />
           <Route path='/nature2' component={Nature2} />
           <Route path='/architecture' component={Architecture} />
-          <Route path='/winterbaltic' component={WinterBaltic} />
           <Route path='/nature' component={Nature} />
-          <Route path ='/preview' component={FullPhoto} />
         </div>
       </Router>
   )

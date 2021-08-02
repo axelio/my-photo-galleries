@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import './Gallery.css';
 import { GalleryProps } from './types';
-
 import Spinner from '../Spinner/Spinner';
 import FullPhoto from '../FullPhoto';
 
